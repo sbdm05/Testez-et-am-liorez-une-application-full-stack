@@ -32,8 +32,10 @@
       <div fxLayout="column" fxLayoutAlign="start center">
         <p>Name: {{ user.firstName }} {{ user.lastName | uppercase }}</p>
         <p>Email: {{ user.email }}</p>
-        <p *ngIf="user.admin" class="my2">You are admin</p>
         @if(user.admin){
+
+          <p class="my2">You are admin</p>
+        }@else {
           <div fxLayout="column" class="my2" fxLayoutAlign="center center">
             <p>Delete my account:</p>
             <button mat-raised-button color="warn" (click)="delete()">
@@ -42,6 +44,7 @@
             </button>
           </div>
         }
+        
 
         <div fxLayoutAlign="space-between center" class="p2 w100">
 
