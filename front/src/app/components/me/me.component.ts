@@ -6,6 +6,7 @@ import { SessionService } from '../../core/service/session.service';
 import { UserService } from '../../core/service/user.service';
 import { MaterialModule } from "../../shared/material.module";
 import { CommonModule } from "@angular/common";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-me',
@@ -19,10 +20,12 @@ export class MeComponent implements OnInit {
   private matSnackBar = inject(MatSnackBar);
   private userService = inject(UserService);
   public user: User | undefined;
+  // ici je stocke la subscription
+  private sub?: Subscription;
 
 
   ngOnInit(): void {
-    this.userService
+    this.sub = this.userService
       .getById(this.sessionService.sessionInformation!.id.toString())
       .subscribe((user: User) => this.user = user);
   }
@@ -39,6 +42,10 @@ export class MeComponent implements OnInit {
         this.sessionService.logOut();
         this.router.navigate(['/']);
       })
+  }
+
+  ngOnDestroy(){
+    this.sub?.unsubscribe();
   }
 
 }
