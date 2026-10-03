@@ -28,25 +28,39 @@ public class UserController {
         this.userService = userService;
     }
 
+    //@GetMapping("/{id}")
+    // public ResponseEntity<?> findById(@PathVariable("id") String id) {
+    //     try {
+    //         User user = this.userService.findById(Long.valueOf(id));
+
+    //         if (user == null) {
+    //             return ResponseEntity.notFound().build();
+    //         }
+
+    //         return ResponseEntity.ok().body(this.userMapper.toDto(user));
+    //     } catch (NumberFormatException e) {
+    //         return ResponseEntity.badRequest().build();
+    //     }
+    // }
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable("id") String id) {
-        try {
-            User user = this.userService.findById(Long.valueOf(id));
+    public ResponseEntity<?> findById(@PathVariable Long id) {
+        
+            // ici pas besoin de convertir manuellement string > number
+            // on utilise le type Long
+            User user = this.userService.findById(id);
 
             if (user == null) {
                 return ResponseEntity.notFound().build();
             }
 
             return ResponseEntity.ok().body(this.userMapper.toDto(user));
-        } catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<?> save(@PathVariable("id") String id) {
-        try {
-            User user = this.userService.findById(Long.valueOf(id));
+    public ResponseEntity<?> save(@PathVariable Long id) {
+        
+            User user = this.userService.findById(id);
 
             if (user == null) {
                 return ResponseEntity.notFound().build();
@@ -58,10 +72,8 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
 
-            this.userService.delete(Long.parseLong(id));
+            this.userService.delete(id);
             return ResponseEntity.ok().build();
-        } catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        
     }
 }
