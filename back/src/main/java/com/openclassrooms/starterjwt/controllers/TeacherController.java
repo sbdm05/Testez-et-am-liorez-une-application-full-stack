@@ -11,13 +11,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+// cette classe reçoit des appels http
 @RestController
+// préfixe url 
 @RequestMapping("/api/teacher")
 public class TeacherController {
     private final TeacherMapper teacherMapper;
     private final TeacherService teacherService;
 
 
+    // ici constructor, déclenchée au démarrage de l'application avec mvn spring-boot:run
+    // private = seule cette classe a accès à ces attributs
+    // final = une fois affecté dans le constructeur, on ne peut plus les remplacer
+    
     public TeacherController(TeacherService teacherService,
                              TeacherMapper teacherMapper) {
         this.teacherMapper = teacherMapper;
