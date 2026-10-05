@@ -26,16 +26,20 @@ public class SessionService {
         return this.sessionRepository.save(session);
     }
 
+    // on vérifie l'existence avant de supprimer
     public void delete(Long id) {
-        this.sessionRepository.deleteById(id);
+        Session session = this.getById(id);
+        this.sessionRepository.delete(session);
     }
-
+    
     public List<Session> findAll() {
         return this.sessionRepository.findAll();
     }
 
+    // Déclenche NotFoundException au lieu de renvoyer null
     public Session getById(Long id) {
-        return this.sessionRepository.findById(id).orElse(null);
+        return this.sessionRepository.findById(id)
+                .orElseThrow(NotFoundException::new);
     }
 
     public Session update(Long id, Session session) {
@@ -43,12 +47,14 @@ public class SessionService {
         return this.sessionRepository.save(session);
     }
 
+
+    // remove du if/else 
+    // utilisation de orElseThrow
+
     public void participate(Long id, Long userId) {
-        Session session = this.sessionRepository.findById(id).orElse(null);
-        User user = this.userRepository.findById(userId).orElse(null);
-        if (session == null || user == null) {
-            throw new NotFoundException();
-        }
+        Session session = this.getById(id);
+        User user = this.userRepository.findById(userId)
+                .orElseThrow(NotFoundException::new);
 
         boolean alreadyParticipate = session.getUsers().stream().anyMatch(o -> o.getId().equals(userId));
         if (alreadyParticipate) {
@@ -61,10 +67,7 @@ public class SessionService {
     }
 
     public void noLongerParticipate(Long id, Long userId) {
-        Session session = this.sessionRepository.findById(id).orElse(null);
-        if (session == null) {
-            throw new NotFoundException();
-        }
+        Session session = this.getById(id);
 
         boolean alreadyParticipate = session.getUsers().stream().anyMatch(o -> o.getId().equals(userId));
         if (!alreadyParticipate) {

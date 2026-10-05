@@ -72,16 +72,8 @@ public class SessionController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> save(@PathVariable Long id) {
-
-        Session session = this.sessionService.getById(id);
-
-        if (session == null) {
-            return ResponseEntity.notFound().build();
-        }
-
         this.sessionService.delete(id);
         return ResponseEntity.ok().build();
-
     }
 
     @PostMapping("{id}/participate/{userId}")
