@@ -44,17 +44,8 @@ public class UserController {
     // }
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
-        
-            // ici pas besoin de convertir manuellement string > number
-            // on utilise le type Long
-            User user = this.userService.findById(id);
-
-            if (user == null) {
-                return ResponseEntity.notFound().build();
-            }
-
-            return ResponseEntity.ok().body(this.userMapper.toDto(user));
-        
+        User user = this.userService.findById(id);
+        return ResponseEntity.ok().body(this.userMapper.toDto(user));
     }
 
     @DeleteMapping("{id}")
