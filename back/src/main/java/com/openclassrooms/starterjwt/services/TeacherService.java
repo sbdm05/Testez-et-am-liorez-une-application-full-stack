@@ -2,6 +2,8 @@ package com.openclassrooms.starterjwt.services;
 
 import com.openclassrooms.starterjwt.models.Teacher;
 import com.openclassrooms.starterjwt.repository.TeacherRepository;
+
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +20,8 @@ public class TeacherService {
         return this.teacherRepository.findAll();
     }
 
-    public Teacher findById(Long id) {
-        return this.teacherRepository.findById(id).orElse(null);
+    public Teacher findById(Long id) throws NotFoundException {
+        return this.teacherRepository.findById(id)
+                .orElseThrow(NotFoundException::new);
     }
 }
