@@ -3,6 +3,7 @@ package com.openclassrooms.starterjwt.controllers;
 import com.openclassrooms.starterjwt.mapper.TeacherMapper;
 import com.openclassrooms.starterjwt.models.Teacher;
 import com.openclassrooms.starterjwt.services.TeacherService;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,18 +30,10 @@ public class TeacherController {
         this.teacherMapper = teacherMapper;
         this.teacherService = teacherService;
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
-        
-            Teacher teacher = this.teacherService.findById(id);
-
-            if (teacher == null) {
-                return ResponseEntity.notFound().build();
-            }
-
-            return ResponseEntity.ok().body(this.teacherMapper.toDto(teacher));
-        
+        Teacher teacher = this.teacherService.findById(id);
+        return ResponseEntity.ok().body(this.teacherMapper.toDto(teacher));
     }
 
     @GetMapping()
