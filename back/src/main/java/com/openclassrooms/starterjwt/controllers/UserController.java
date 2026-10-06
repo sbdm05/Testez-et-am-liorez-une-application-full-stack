@@ -5,6 +5,7 @@ import com.openclassrooms.starterjwt.models.User;
 import com.openclassrooms.starterjwt.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Objects;
+
 
 @RestController
 @RequestMapping("/api/user")
@@ -28,20 +29,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    //@GetMapping("/{id}")
-    // public ResponseEntity<?> findById(@PathVariable("id") String id) {
-    //     try {
-    //         User user = this.userService.findById(Long.valueOf(id));
-
-    //         if (user == null) {
-    //             return ResponseEntity.notFound().build();
-    //         }
-
-    //         return ResponseEntity.ok().body(this.userMapper.toDto(user));
-    //     } catch (NumberFormatException e) {
-    //         return ResponseEntity.badRequest().build();
-    //     }
-    // }
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         User user = this.userService.findById(id);
@@ -49,22 +36,9 @@ public class UserController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<?> save(@PathVariable Long id) {
-        
-            User user = this.userService.findById(id);
-
-            if (user == null) {
-                return ResponseEntity.notFound().build();
-            }
-
-            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-            if (!Objects.equals(userDetails.getUsername(), user.getEmail())) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            }
-
-            this.userService.delete(id);
-            return ResponseEntity.ok().build();
-        
+    public ResponseEntity<?> save(@PathVariable Long id,
+        @AuthenticationPrincipal UserDetails userDetails) {
+        this.userService.delete(id, userDetails.getUsername());
+        return ResponseEntity.ok().build();
     }
 }

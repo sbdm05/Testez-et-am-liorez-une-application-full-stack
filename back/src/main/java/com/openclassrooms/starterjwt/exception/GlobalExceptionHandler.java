@@ -1,6 +1,7 @@
 package com.openclassrooms.starterjwt.exception;
 
 import org.apache.coyote.BadRequestException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -22,5 +23,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler (MethodArgumentTypeMismatchException.class)
     public ResponseEntity<Void> handleTypeMismatch(MethodArgumentTypeMismatchException e){
         return ResponseEntity.badRequest().build(); 
+    }
+
+    // gère le cas d'une action non autorisée (ici exception si user n'agit pas sur son propre compte)
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<Void> handleUnauthorized(UnauthorizedException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }
