@@ -1,7 +1,5 @@
-import { HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@jest/globals';
 
 import { AppComponent } from './app.component';
