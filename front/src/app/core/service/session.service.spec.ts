@@ -39,12 +39,28 @@ describe('SessionService', () => {
 
   });
 
-  it('should remove the user and set IsLogged to false on logOut', () => {
+  it('should store the user and set IsLogged to true when loggedin', () => {
     service.logIn(user); 
-    service.logOut(); 
 
-    expect(service.isLogged).toBe(false); 
-    expect(service.sessionInformation).toBeUndefined();
+    expect(service.isLogged).toBe(true); 
+    expect(service.sessionInformation).toEqual(user);
+
+  });
+
+  // test de l'observable 
+  it('should emit the login state using $isLogged()', () => {
+    // on crée dans un tableau
+    const states : boolean[] = []; 
+
+    // on subscribe
+    service.$isLogged().subscribe(state => states.push(state)); 
+
+    // on déclenche
+    service.logIn(user);
+    service.logOut(); 
+    
+    expect(states).toEqual([false, true, false]); 
+
 
   });
 
