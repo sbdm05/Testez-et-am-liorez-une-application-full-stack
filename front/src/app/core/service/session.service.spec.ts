@@ -39,4 +39,13 @@ describe('SessionService', () => {
 
   });
 
+  it('should remove the user and set IsLogged to false on logOut', () => {
+    service.logIn(user); 
+    service.logOut(); 
+
+    expect(service.isLogged).toBe(false); 
+    expect(service.sessionInformation).toBeUndefined();
+
+  });
+
 });
