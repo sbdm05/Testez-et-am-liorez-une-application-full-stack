@@ -25,7 +25,7 @@ describe('SessionsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers:[
-        provideHttpClient, provideHttpClientTesting
+        provideHttpClient(), provideHttpClientTesting()
       ]
     });
     service = TestBed.inject(SessionApiService);
@@ -36,7 +36,25 @@ describe('SessionsService', () => {
     httpMock.verify()
   })
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  // test all()
+  it('all() should GET api/session', () => {
+    // to store result
+    let result : Session [] | undefined; 
+    service.all().subscribe(data => result = data )
+
+    const req = httpMock.expectOne('api/session'); 
+    expect(req.request.method).toBe('GET'); 
+
+    // use this mock session for the test
+    req.flush([session])
+
+    expect(result).toEqual([session])
+
   });
+
+  // test 
+
+
+
+
 });
