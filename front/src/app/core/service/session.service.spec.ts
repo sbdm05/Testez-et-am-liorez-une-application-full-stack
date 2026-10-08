@@ -26,7 +26,17 @@ describe('SessionService', () => {
     service = TestBed.inject(SessionService);
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  it('should be logged out by default', () => {
+    expect(service.isLogged).toBe(false);
+    expect(service.sessionInformation).toBeUndefined(); 
   });
+
+  it('should store the user and set IsLogged to true when loggedin', () => {
+    service.logIn(user); 
+
+    expect(service.isLogged).toBe(true); 
+    expect(service.sessionInformation).toEqual(user);
+
+  });
+
 });
