@@ -117,5 +117,38 @@ describe('SessionsService', () => {
   });
 
 
+    // test participate
+  it('participate() should POST api/session/:id/participate/:userId', () => {
+    let isParticipant = false;
+    service.participate("1", "2").subscribe(()=> isParticipant = true )
+
+
+    const req = httpMock.expectOne('api/session/1/participate/2'); 
+    expect(req.request.method).toBe('POST'); 
+    expect(req.request.body).toBeNull(); // facultatif
+
+    // use this mock session for the test
+    req.flush(session)
+
+    expect(isParticipant).toBe(true); 
+
+  });
+
+
+    // test unparticipate
+  it('unparticipate() should DELETE api/session/:id/participate/:userId', () => {
+    let isParticipant = true;
+    service.unParticipate("1", "2").subscribe(()=> isParticipant = false )
+
+
+    const req = httpMock.expectOne('api/session/1/participate/2'); 
+    expect(req.request.method).toBe('DELETE'); 
+
+    // use this mock session for the test
+    req.flush(session)
+
+    expect(isParticipant).toBe(false); 
+
+  });
 
 });
