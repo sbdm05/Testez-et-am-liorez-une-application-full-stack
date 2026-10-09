@@ -100,7 +100,22 @@ describe('SessionsService', () => {
 
   });
 
-  
+    // test update
+  it('update(session) should POST api/session/:id', () => {
+    let result: Session | undefined; 
+    service.update("1", session).subscribe((session) => result = session )
+
+    const req = httpMock.expectOne('api/session/1'); 
+    expect(req.request.method).toBe('PUT'); 
+    expect(req.request.body).toEqual(session)
+
+    // use this mock session for the test
+    req.flush(session)
+
+    expect(result).toEqual(session); 
+
+  });
+
 
 
 });
