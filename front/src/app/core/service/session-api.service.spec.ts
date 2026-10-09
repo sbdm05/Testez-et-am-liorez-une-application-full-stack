@@ -52,9 +52,55 @@ describe('SessionsService', () => {
 
   });
 
-  // test 
+  // test detail (id : String)
+  it('detail(id ) should GET api/session/:id', () => {
+    // to store result
+    let result : Session | undefined; 
+    service.detail('1').subscribe(data => result = data )
+
+    const req = httpMock.expectOne('api/session/1'); 
+    expect(req.request.method).toBe('GET'); 
+
+    // use this mock session for the test
+    req.flush(session)
+
+    expect(result).toEqual(session)
+
+  });
 
 
+    // test delete (id : String)
+  it('detail(id ) should DELETE api/session/:id', () => {
+    let isDeleted = false;
+    service.delete('1').subscribe(() => isDeleted = true )
+
+    const req = httpMock.expectOne('api/session/1'); 
+    expect(req.request.method).toBe('DELETE'); 
+
+    // use this mock session for the test
+    req.flush(session)
+
+    expect(isDeleted).toBe(true)
+
+  });
+
+  // test create
+  it('create(session) should POST api/session', () => {
+    let result: Session | undefined; 
+    service.create(session).subscribe((session) => result = session )
+
+    const req = httpMock.expectOne('api/session'); 
+    expect(req.request.method).toBe('POST'); 
+    expect(req.request.body).toEqual(session)
+
+    // use this mock session for the test
+    req.flush(session)
+
+    expect(result).toEqual(session); 
+
+  });
+
+  
 
 
 });
