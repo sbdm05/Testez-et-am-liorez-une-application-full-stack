@@ -12,7 +12,7 @@ describe('TeacherService (unit)', () => {
   const teacher: Teacher = {
     id: 1,
     firstName: 'Margot',
-    lastName: 'Delahaye',
+    lastName: 'Durand',
     createdAt: new Date('2026-01-01'),
     updatedAt: new Date('2026-01-01'),
   };
