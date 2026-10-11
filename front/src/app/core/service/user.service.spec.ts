@@ -44,4 +44,16 @@ describe('UserService', () => {
     expect(result).toEqual(user);
   });
 
+    it('delete() should DELETE api/user/:id', () => {
+    let done = false;
+
+    service.delete('1').subscribe(() => (done = true));
+
+    const req = httpMock.expectOne('api/user/1');
+    expect(req.request.method).toBe('DELETE');
+    req.flush(null);
+
+    expect(done).toBe(true);
+  });
+
 });
