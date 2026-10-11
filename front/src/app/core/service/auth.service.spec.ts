@@ -43,4 +43,31 @@ describe('AuthService (unit)', () => {
     expect(done).toBe(true);
   });
 
+  
+   it('login() should POST the login request to /api/auth/login and return the session information', () => {
+    const loginRequest: LoginRequest = {
+      email: 'yoga@studio.com',
+      password: 'test!1234',
+    };
+    const sessionInformation: SessionInformation = {
+      token: 'fake-jwt',
+      type: 'Bearer',
+      id: 1,
+      username: 'yoga@studio.com',
+      firstName: 'Admin',
+      lastName: 'Admin',
+      admin: true,
+    };
+    let result: SessionInformation | undefined;
+
+    service.login(loginRequest).subscribe(info => (result = info));
+
+    const req = httpMock.expectOne('/api/auth/login');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual(loginRequest);
+    req.flush(sessionInformation);
+
+    expect(result).toEqual(sessionInformation);
+  });
+
 });
