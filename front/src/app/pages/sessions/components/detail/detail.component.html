@@ -19,7 +19,7 @@
           }@else {
 
             <div >
-              @if(!participate){
+              @if(!isParticipate){
 
                 <button mat-raised-button color="primary" (click)="participate()">
                   <mat-icon>person_add</mat-icon>
@@ -40,14 +40,17 @@
         </div>
       </div>
     </mat-card-title>
-    <mat-card-subtitle *ngIf="teacher">
-      <div fxLayoutAlign="start center" class="ml3">
-        <mat-icon>
-          people
-        </mat-icon>
-        <span class="ml1">{{ teacher.firstName }} {{ teacher.lastName | uppercase }}</span>
-      </div>
-    </mat-card-subtitle>
+    @if (teacher){
+    <mat-card-subtitle >
+          <div fxLayoutAlign="start center" class="ml3">
+            <mat-icon>
+              people
+            </mat-icon>
+            <span class="ml1">{{ teacher.firstName }} {{ teacher.lastName | uppercase }}</span>
+          </div>
+        </mat-card-subtitle>
+    }
+   
     <div mat-card-image fxLayoutAlign="center center">
       <img class="picture" src="../../../../../assets/sessions.png" alt="Yoga session">
     </div>
