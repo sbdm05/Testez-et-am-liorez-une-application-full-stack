@@ -206,4 +206,28 @@ describe('MeComponent (integration)', () => {
     expect(snackBar.open).toHaveBeenCalledWith('Your account has been deleted !', 'Close', { duration: 3000 });
     expect(router.navigate).toHaveBeenCalledWith(['/']);
   });
+
+    // Plan de test : Account – affichage des informations de l'utilisateur (cas admin)
+  it('should show "You are admin" and no delete button when the API returns an admin', () => {
+    httpMock.expectOne('api/user/1').flush(buildUser(true));
+    fixture.detectChanges();
+
+    const text: string = fixture.nativeElement.textContent;
+    expect(text).toContain('You are admin');
+    expect(text).not.toContain('Delete my account');
+
+    const buttons: HTMLButtonElement[] = Array.from(fixture.nativeElement.querySelectorAll('button'));
+    expect(buttons.some(b => b.textContent?.includes('delete'))).toBe(false);
+  });
+
+  it('should go back in the browser history when clicking the back arrow', () => {
+    httpMock.expectOne('api/user/1').flush(buildUser(false));
+    fixture.detectChanges();
+    const backSpy = jest.spyOn(window.history, 'back').mockImplementation(() => {});
+
+    const buttons: HTMLButtonElement[] = Array.from(fixture.nativeElement.querySelectorAll('button'));
+    buttons.find(b => b.textContent?.includes('arrow_back'))!.click();
+
+    expect(backSpy).toHaveBeenCalled();
+  });
 });
