@@ -305,4 +305,24 @@ describe('DetailComponent (integration)', () => {
     const texts = buttonTexts(fixture);
     expect(texts.some(t => t.includes('Participate') && !t.includes('Do not'))).toBe(true);
   });
+
+    // Plan de test : Informations session – bouton Delete si admin (cas admin)
+  it('should show the Delete button and no Participate button to an admin', async () => {
+    await setup(true);
+    answerFetch([]);
+
+    const texts = buttonTexts(fixture);
+    expect(texts.some(t => t.includes('Delete'))).toBe(true);
+    expect(texts.some(t => t.includes('Participate'))).toBe(false);
+  });
+
+  // Plan de test : Informations session – bouton Delete si admin (cas non-admin)
+  it('should hide the Delete button from a non-admin user', async () => {
+    await setup(false);
+    answerFetch([]);
+
+    const texts = buttonTexts(fixture);
+    expect(texts.some(t => t.includes('Delete'))).toBe(false);
+    expect(texts.some(t => t.includes('Participate'))).toBe(true);
+  });
 });
