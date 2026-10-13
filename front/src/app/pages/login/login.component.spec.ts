@@ -201,4 +201,24 @@ describe('LoginComponent (integration)', () => {
     expect(sessionService.isLogged).toBe(false);
     expect(router.navigate).not.toHaveBeenCalled();
   });
+
+    // Plan de test : Login – erreur en l'absence d'un champ obligatoire
+  it('should keep Submit disabled and send no request while the password is empty', () => {
+    typeInto(fixture, 'email', 'yoga@studio.com');
+    fixture.detectChanges();
+
+    expect(submitButton(fixture).disabled).toBe(true);
+    submitButton(fixture).click();
+    httpMock.expectNone('/api/auth/login');
+  });
+
+  it('should keep Submit disabled and send no request when the email format is invalid', () => {
+    typeInto(fixture, 'email', 'not-an-email');
+    typeInto(fixture, 'password', 'test!1234');
+    fixture.detectChanges();
+
+    expect(submitButton(fixture).disabled).toBe(true);
+    submitButton(fixture).click();
+    httpMock.expectNone('/api/auth/login');
+  });
 });

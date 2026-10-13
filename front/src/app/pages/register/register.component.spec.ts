@@ -173,6 +173,7 @@ describe('RegisterComponent (integration)', () => {
     expect(router.navigate).not.toHaveBeenCalled();
   });
 
+  // Plan de test : Register – erreur en l'absence d'un champ obligatoire
   it('should keep Submit disabled while a required field is empty', () => {
     typeInto(fixture, 'firstName', validForm.firstName);
     typeInto(fixture, 'email', validForm.email);
@@ -180,5 +181,42 @@ describe('RegisterComponent (integration)', () => {
     fixture.detectChanges(); // lastName reste vide
 
     expect(submitButton(fixture).disabled).toBe(true);
+  });
+
+  // Plan de test : Register – erreur en l'absence d'un champ obligatoire (email invalide)
+  it('should keep Submit disabled and send no request when the email format is invalid', () => {
+    typeInto(fixture, 'firstName', validForm.firstName);
+    typeInto(fixture, 'lastName', validForm.lastName);
+    typeInto(fixture, 'email', 'not-an-email');
+    typeInto(fixture, 'password', validForm.password);
+    fixture.detectChanges();
+
+    expect(submitButton(fixture).disabled).toBe(true);
+    submitButton(fixture).click();
+    httpMock.expectNone('/api/auth/register');
+  });
+
+  // Plan de test : Register – la création de compte (après une première erreur)
+  it('should let the user retry after an error and register successfully', () => {
+    fillForm();
+
+    // 1er essai : l'email est déjà pris
+    submitButton(fixture).click();
+    httpMock
+      .expectOne('/api/auth/register')
+      .flush({ message: 'Error: Email is already taken!' }, { status: 400, statusText: 'Bad Request' });
+    fixture.detectChanges();
+    expect(fixture.nativeElement.textContent).toContain('An error occurred');
+
+    // 2e essai avec un autre email : succès
+    typeInto(fixture, 'email', 'other@doe.com');
+    fixture.detectChanges();
+    submitButton(fixture).click();
+
+    const req = httpMock.expectOne('/api/auth/register');
+    expect(req.request.body).toEqual({ ...validForm, email: 'other@doe.com' });
+    req.flush(null);
+
+    expect(router.navigate).toHaveBeenCalledWith(['/login']);
   });
 });
