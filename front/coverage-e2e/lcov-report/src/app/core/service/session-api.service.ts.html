@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">45.45% </span>
+                <span class="strong">81.81% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/11</span>
+                <span class='fraction'>9/11</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">77.77% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/9</span>
+                <span class='fraction'>7/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/10</span>
+                <span class='fraction'>8/10</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -115,27 +115,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">73x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -147,7 +143,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -170,12 +170,12 @@ export class SessionApiService {
     return this.httpClient.get&lt;Session[]&gt;(this.pathService);
   }
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >detail(</span>id: string): Observable&lt;Session&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.httpClient.get&lt;Session&gt;(`${this.pathService}/${id}`);</span>
+  public detail(id: string): Observable&lt;Session&gt; {
+    return this.httpClient.get&lt;Session&gt;(`${this.pathService}/${id}`);
   }
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >delete(</span>id: string): Observable&lt;void&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.httpClient.delete&lt;void&gt;(`${this.pathService}/${id}`);</span>
+  public delete(id: string): Observable&lt;void&gt; {
+    return this.httpClient.delete&lt;void&gt;(`${this.pathService}/${id}`);
   }
 &nbsp;
   public <span class="fstat-no" title="function not covered" >create(</span>session: Session): Observable&lt;Session&gt; {
@@ -186,12 +186,12 @@ export class SessionApiService {
 <span class="cstat-no" title="statement not covered" >    return this.httpClient.put&lt;Session&gt;(`${this.pathService}/${id}`, session);</span>
   }
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >participate(</span>id: string, userId: string): Observable&lt;void&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.httpClient.post&lt;void&gt;(`${this.pathService}/${id}/participate/${userId}`, null);</span>
+  public participate(id: string, userId: string): Observable&lt;void&gt; {
+    return this.httpClient.post&lt;void&gt;(`${this.pathService}/${id}/participate/${userId}`, null);
   }
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >unParticipate(</span>id: string, userId: string): Observable&lt;void&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.httpClient.delete&lt;void&gt;(`${this.pathService}/${id}/participate/${userId}`);</span>
+  public unParticipate(id: string, userId: string): Observable&lt;void&gt; {
+    return this.httpClient.delete&lt;void&gt;(`${this.pathService}/${id}/participate/${userId}`);
   }
 &nbsp;
 }
@@ -202,7 +202,7 @@ export class SessionApiService {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-13T09:44:17.717Z
+                at 2026-10-13T09:53:05.425Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
