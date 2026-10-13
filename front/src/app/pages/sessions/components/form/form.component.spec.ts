@@ -201,7 +201,7 @@ describe('FormComponent (integration)', () => {
   let router: Router;
   let snackBar: MatSnackBar;
 
-  const setupAt = async (url: string) => {
+  const setupAt = async (url: string, admin = true) => {
     await TestBed.configureTestingModule({
       imports: [FormComponent],
       providers: [
@@ -225,7 +225,7 @@ describe('FormComponent (integration)', () => {
       username: 'yoga@studio.com',
       firstName: 'Admin',
       lastName: 'Admin',
-      admin: true,
+      admin,
     });
 
     fixture = TestBed.createComponent(FormComponent);
@@ -306,5 +306,43 @@ describe('FormComponent (integration)', () => {
 
     expect(snackBar.open).toHaveBeenCalledWith('Session updated !', 'Close', { duration: 3000 });
     expect(router.navigate).toHaveBeenCalledWith(['sessions']);
+  });
+
+    it('should redirect a non-admin user to /sessions', async () => {
+    await setupAt(CREATE_URL, false);
+    answerTeachers();
+
+    expect(router.navigate).toHaveBeenCalledWith(['/sessions']);
+  });
+
+  // Plan de test : Modification session – erreur en l'absence d'un champ obligatoire
+  it('should keep Save disabled and send no update when a required field is cleared', async () => {
+    await setupAt(UPDATE_URL);
+    httpMock.expectOne('api/session/1').flush(existingSession);
+    fixture.detectChanges();
+    answerTeachers();
+
+    typeInto(fixture, 'name', '');
+    fixture.detectChanges();
+
+    expect(saveButton(fixture).disabled).toBe(true);
+    saveButton(fixture).click();
+    httpMock.expectNone('api/session/1');
+  });
+
+  it('should display the update title and prefill every field from the API', async () => {
+    await setupAt(UPDATE_URL);
+    httpMock.expectOne('api/session/1').flush(existingSession);
+    fixture.detectChanges();
+    answerTeachers();
+
+    const field = (name: string): HTMLInputElement =>
+      fixture.nativeElement.querySelector(`[formcontrolname="${name}"]`);
+
+    expect(fixture.nativeElement.textContent).toContain('Update session');
+    expect(field('name').value).toBe('Yoga doux');
+    expect(field('date').value).toBe('2026-10-10');
+    expect(field('description').value).toBe('Séance pour débutants');
+    expect(component.sessionForm!.get('teacher_id')!.value).toBe(2);
   });
 });
