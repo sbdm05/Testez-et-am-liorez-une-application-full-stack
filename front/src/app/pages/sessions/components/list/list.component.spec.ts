@@ -161,4 +161,38 @@ describe('ListComponent (integration)', () => {
     const urlTree = navigateSpy.mock.calls[0][0] as UrlTree;
     expect(router.serializeUrl(urlTree)).toBe('/detail/1');
   });
+
+    // Plan de test : Sessions – boutons Create et Detail si admin (cas non-admin)
+  it('should hide Create and Edit buttons for a non-admin user', () => {
+    // On reconnecte un utilisateur non-admin : le getter `user` lit l'état en direct
+    TestBed.inject(SessionService).logIn({
+      token: 'fake-jwt',
+      type: 'Bearer',
+      id: 2,
+      username: 'user@studio.com',
+      firstName: 'John',
+      lastName: 'Doe',
+      admin: false,
+    });
+
+    httpMock.expectOne('api/session').flush(sessions);
+    fixture.detectChanges();
+    const texts = buttonTexts(fixture);
+
+    expect(texts.some(t => t.includes('Create'))).toBe(false);
+    expect(texts.some(t => t.includes('Edit'))).toBe(false);
+    expect(texts.filter(t => t.includes('Detail'))).toHaveLength(2);
+  });
+
+  it('should navigate to the update form when an admin clicks Edit', () => {
+    httpMock.expectOne('api/session').flush(sessions);
+    fixture.detectChanges();
+    const navigateSpy = jest.spyOn(router, 'navigateByUrl').mockResolvedValue(true);
+
+    const buttons: HTMLButtonElement[] = Array.from(fixture.nativeElement.querySelectorAll('button'));
+    buttons.find(b => b.textContent?.includes('Edit'))!.click();
+
+    const urlTree = navigateSpy.mock.calls[0][0] as UrlTree;
+    expect(router.serializeUrl(urlTree)).toBe('/update/1');
+  });
 });
