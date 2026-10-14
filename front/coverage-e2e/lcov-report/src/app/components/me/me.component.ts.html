@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>2/14</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">14.28% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/7</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.69% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>1/13</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -130,38 +130,38 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">74x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">138x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -182,37 +182,37 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./me.component.scss']
 })
 export class MeComponent implements OnInit {
-  private <span class="cstat-no" title="statement not covered" >router = inject(Router);</span>
-  private <span class="cstat-no" title="statement not covered" >sessionService = inject(SessionService);</span>
-  private <span class="cstat-no" title="statement not covered" >matSnackBar = inject(MatSnackBar);</span>
-  private <span class="cstat-no" title="statement not covered" >userService = inject(UserService);</span>
+  private router = inject(Router);
+  private sessionService = inject(SessionService);
+  private matSnackBar = inject(MatSnackBar);
+  private userService = inject(UserService);
   public user: User | undefined;
   // ici je stocke la subscription
   private sub?: Subscription;
 &nbsp;
 &nbsp;
-<span class="fstat-no" title="function not covered" >  ngOnInit(</span>): void {
-<span class="cstat-no" title="statement not covered" >    this.sub = this.userService</span>
+  ngOnInit(): void {
+    this.sub = this.userService
       .getById(this.sessionService.sessionInformation!.id.toString())
-      .subscribe((<span class="fstat-no" title="function not covered" >user: User)</span> =&gt; <span class="cstat-no" title="statement not covered" >this.user = user)</span>;
+      .subscribe((user: User) =&gt; this.user = user);
   }
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >back(</span>): void {
-<span class="cstat-no" title="statement not covered" >    window.history.back();</span>
+  public back(): void {
+    window.history.back();
   }
 &nbsp;
-  public <span class="fstat-no" title="function not covered" >delete(</span>): void {
-<span class="cstat-no" title="statement not covered" >    this.userService</span>
+  public delete(): void {
+    this.userService
       .delete(this.sessionService.sessionInformation!.id.toString())
-      .subscribe((<span class="fstat-no" title="function not covered" >_)</span> =&gt; {
-<span class="cstat-no" title="statement not covered" >        this.matSnackBar.open("Your account has been deleted !", 'Close', { duration: 3000 });</span>
-<span class="cstat-no" title="statement not covered" >        this.sessionService.logOut();</span>
-<span class="cstat-no" title="statement not covered" >        this.router.navigate(['/']);</span>
+      .subscribe((_) =&gt; {
+        this.matSnackBar.open("Your account has been deleted !", 'Close', { duration: 3000 });
+        this.sessionService.logOut();
+        this.router.navigate(['/']);
       })
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  ngOnDestroy(</span>){
-<span class="cstat-no" title="statement not covered" >    this.sub?.unsubscribe();</span>
+  ngOnDestroy(){
+    this.sub?.unsubscribe();
   }
 &nbsp;
 }
@@ -223,7 +223,7 @@ export class MeComponent implements OnInit {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-10-13T10:26:32.729Z
+                at 2026-10-13T10:31:50.486Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>
