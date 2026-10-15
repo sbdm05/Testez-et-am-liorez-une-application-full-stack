@@ -139,6 +139,8 @@
                     <excludes>
                         <!-- Consigne OC : le package DTO n'est pas testé -->
                         <exclude>**/dto/**</exclude>
+                        <exclude>**/mapper/*Impl.class</exclude>
+                        <exclude>**/SpringBootSecurityJwtApplication.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
