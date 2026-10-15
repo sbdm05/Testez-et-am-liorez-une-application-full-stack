@@ -36,10 +36,6 @@ public class SessionController {
 
         Session session = this.sessionService.getById(id);
 
-        if (session == null) {
-            return ResponseEntity.notFound().build();
-        }
-
         return ResponseEntity.ok().body(this.sessionMapper.toDto(session));
 
     }
