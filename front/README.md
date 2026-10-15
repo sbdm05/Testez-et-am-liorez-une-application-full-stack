@@ -1,73 +1,72 @@
-# Yoga App — Back-end
+# Yoga App — Front-end
 
-API REST de l'application Yoga App, sécurisée par JWT : gestion des utilisateurs, des professeurs, des sessions de yoga et des inscriptions aux sessions.
+Front Angular de l'application Yoga App : inscription et connexion, liste et détail des sessions, participation aux sessions, gestion des sessions (administrateur) et page de compte.
 
 ## Prérequis
 
-- JDK 21
-- Maven 3.9
-- Docker Desktop
+- Node.js 22
+- npm
 
 ## Installation et lancement
 
-Depuis le dossier `back/` :
+Depuis le dossier `front/` :
 
 ```bash
 # 1. Installer les dépendances
-mvn clean install -DskipTests
+npm install
 
-# 2. Démarrer la base MySQL (configurée via .env)
-docker compose up -d
-
-# 3. Lancer l'API
-mvn spring-boot:run
+# 2. Lancer l'application
+npm run start
 ```
 
-L'API est disponible sur `http://localhost:8080/api`.
+L'application est disponible sur `http://localhost:4200`.
 
-### Compte administrateur
-
-Exécuter le script `src/main/resources/sql/insert_user.sql` dans la base MySQL, puis se connecter avec :
-
-- email : `yoga@studio.com`
-- mot de passe : `test!1234`
-
-## Structure du projet
-
-```text
-src/main/java/com/openclassrooms/starterjwt/
-├── controllers/   # API REST
-├── services/      # logique métier
-├── repository/    # accès aux données (Spring Data JPA)
-├── models/        # entités JPA
-├── dto/, mapper/  # objets échangés avec le front et conversion (MapStruct)
-├── exception/     # exceptions métier et handler global
-└── security/      # Spring Security et JWT
-```
+Les appels `/api` sont redirigés vers le back (`http://localhost:8080`) par le proxy Angular : lancer d'abord le back (voir `back/README.md`).
 
 ## Tests
 
-Les tests utilisent une base H2 en mémoire : ni Docker ni MySQL ne sont nécessaires.
+### Tests unitaires et d'intégration (Jest)
 
 ```bash
-# Tous les tests + rapport + contrôle des 80 % de couverture
-mvn clean verify
+# Tous les tests
+npm run test
 
-# Un seul fichier de test
-mvn test -Dtest=SessionControllerIntegrationTest
+# Mode watch
+npm run test:watch
+
+# Avec le rapport de couverture
+npm run test -- --coverage
 ```
 
-- **Tests unitaires** (`src/test/.../services`) : JUnit 5 + Mockito.
-- **Tests d'intégration** (`src/test/.../controllers`) : `@SpringBootTest` + MockMvc + H2.
+Les tests se trouvent à côté des fichiers testés : `src/app/**/*.spec.ts`.
 
-43 tests, dont 32,6 % de tests d'intégration.
+106 tests, dont 30,2 % de tests d'intégration.
+
+### Tests end-to-end (Cypress)
+
+Les tests e2e simulent le back avec `cy.intercept` : il n'est pas nécessaire de lancer l'API.
+
+```bash
+# Mode interactif
+npm run e2e
+
+# Mode headless
+npm run e2e:ci
+
+# Générer le rapport de couverture (après une exécution des tests e2e)
+npm run e2e:coverage
+```
+
+Les tests se trouvent dans `cypress/e2e/` : 29 tests répartis dans 7 fichiers.
 
 ## Couverture
 
-Rapport : `target/site/jacoco/index.html`
+| Rapport | Emplacement |
+|---|---|
+| Jest | `coverage/lcov-report/index.html` |
+| Cypress | `coverage-e2e/lcov-report/index.html` |
 
-| Instructions | Branches | Lignes | Méthodes |
-|---|---|---|---|
-| 90 % | 91 % | 91 % | 92 % |
-
-Sont exclus du calcul : les DTO, le code généré par MapStruct et Lombok, et la classe principale Spring Boot.
+| Tests | Statements | Branches | Functions | Lines |
+|---|---|---|---|---|
+| Jest | 100 % | 100 % | 100 % | 100 % |
+| Cypress | 97,8 % | 92,3 % | 98,7 % | 97,6 % |
