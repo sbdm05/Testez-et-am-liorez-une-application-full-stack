@@ -1,0 +1,17 @@
+oc:
+  app:
+    jwtExpirationMs: 86400000
+    jwtSecret: yogaAppTestKey01yogaAppTestKey01yogaAppTestKey01yogaAppTestKey01yogaAppTestKey01yogaAppTestKey01
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    url: jdbc:h2:mem:yogatest;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+  docker:
+    compose:
+      enabled: false
