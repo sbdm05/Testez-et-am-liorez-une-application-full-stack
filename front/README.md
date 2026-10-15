@@ -1,48 +1,73 @@
-# Yoga
+# Yoga App — Back-end
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.16.
+API REST de l'application Yoga App, sécurisée par JWT : gestion des utilisateurs, des professeurs, des sessions de yoga et des inscriptions aux sessions.
 
-## Start the project
+## Prérequis
 
-Git clone:
+- JDK 21
+- Maven 3.9
+- Docker Desktop
 
-> git clone https://github.com/OpenClassrooms-Student-Center/P5-Full-Stack-testing
+## Installation et lancement
 
-Go inside folder:
+Depuis le dossier `back/` :
 
-> cd yoga
+```bash
+# 1. Installer les dépendances
+mvn clean install -DskipTests
 
-Install dependencies:
+# 2. Démarrer la base MySQL (configurée via .env)
+docker compose up -d
 
-> npm install
+# 3. Lancer l'API
+mvn spring-boot:run
+```
 
-Launch Front-end:
+L'API est disponible sur `http://localhost:8080/api`.
 
-> npm run start;
+### Compte administrateur
 
+Exécuter le script `src/main/resources/sql/insert_user.sql` dans la base MySQL, puis se connecter avec :
 
-### Test
+- email : `yoga@studio.com`
+- mot de passe : `test!1234`
 
-#### E2E
+## Structure du projet
 
-Launching e2e test:
+```text
+src/main/java/com/openclassrooms/starterjwt/
+├── controllers/   # API REST
+├── services/      # logique métier
+├── repository/    # accès aux données (Spring Data JPA)
+├── models/        # entités JPA
+├── dto/, mapper/  # objets échangés avec le front et conversion (MapStruct)
+├── exception/     # exceptions métier et handler global
+└── security/      # Spring Security et JWT
+```
 
-> npm run e2e
+## Tests
 
-Generate coverage report (you should launch e2e test before):
+Les tests utilisent une base H2 en mémoire : ni Docker ni MySQL ne sont nécessaires.
 
-> npm run e2e:coverage
+```bash
+# Tous les tests + rapport + contrôle des 80 % de couverture
+mvn clean verify
 
-Report is available here:
+# Un seul fichier de test
+mvn test -Dtest=SessionControllerIntegrationTest
+```
 
-> front/coverage/lcov-report/index.html
+- **Tests unitaires** (`src/test/.../services`) : JUnit 5 + Mockito.
+- **Tests d'intégration** (`src/test/.../controllers`) : `@SpringBootTest` + MockMvc + H2.
 
-#### Unitary test
+43 tests, dont 32,6 % de tests d'intégration.
 
-Launching test:
+## Couverture
 
-> npm run test
+Rapport : `target/site/jacoco/index.html`
 
-for following change:
+| Instructions | Branches | Lignes | Méthodes |
+|---|---|---|---|
+| 90 % | 91 % | 91 % | 92 % |
 
-> npm run test:watch
+Sont exclus du calcul : les DTO, le code généré par MapStruct et Lombok, et la classe principale Spring Boot.
